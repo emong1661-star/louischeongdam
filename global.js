@@ -1,6 +1,6 @@
 /**
  * Fintree Payment Universal Script (Hosted)
- * CARD SURCHARGE VERSION: MARU.pay final amount +3%
+ * CARD PAYMENT VERSION: original order total, no surcharge
  * Fix:
  *  - amount: ONLY from "총 주문금액" row (span next to label)
  *  - hide bank account/depositor blocks when CREDIT selected
@@ -356,9 +356,8 @@
           responseFunction: window.paymentResultByJS,
           publicKey: CONFIG.PUBLIC_KEY,
           trackId: params.trackId,
-          // 카드 결제창에 전달되는 최종 금액에 3% 적용
-          // 예: 267,400원 -> 275,422원
-          amount: String(Math.round((parseInt(params.amount, 10) || 0) * 1.03)),
+          // 총 주문금액 그대로 결제 요청 (추가 수수료 없음)
+          amount: String(parseInt(params.amount, 10) || 0),
           redirectUrl:
             window.location.origin + getRedirectUrl(CONFIG.PATHS.SUCCESS),
           itemName: safeItemName,
@@ -506,7 +505,6 @@
           customUI.innerHTML = `
             <div class="pay-guide-text">
               * 아래 버튼을 눌러 결제수단을 선택해주세요.<br>
-              <span class="pay-guide-red">* 카드결제시 총 주문금액에서 수수료 3%가 추가 됩니다.</span><br>
               * 카드결제 오류 시 카카오톡으로 문의해주세요.<br>
               <span class="pay-guide-blue">* 법인카드 결제시 카카오톡으로 문의주세요.</span><br>
               * 결제오류로 재결제가 필요하실 경우<br>
